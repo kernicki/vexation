@@ -342,29 +342,37 @@ int split_in_half(int primnum; int sharebase_prim){
 
 int build_strings(int iter;int seeds[] ;string geo_pairs[];string pairs_to_build[]){
    // will return number of forks
-   int newbies=0;
-   for(int i =0; i<iter;i++){
-     int new_seeds[] = {};
-     foreach (int seed; seeds){
-       foreach (string pair; geo_pairs){
-         string b[] = split(pair,"_");
-         int first = atoi(b[0]);
-         int second = atoi(b[1]);
-         if (first == seed) {
-           append_if_not_in(pairs_to_build,pair);
-           append_if_not_in(new_seeds,second);
-           newbies++;}
-         if (second == seed) {
-           append_if_not_in(pairs_to_build,pair);
-           append_if_not_in(new_seeds,first);
-           newbies++;}
-       }
-       seeds = new_seeds;}}
-   return newbies;
+  int c=0;
+  int newbies=0;
+  int old_n=0;
+  for(int i =0; i<iter;i++){
+    int new_seeds[] = {};
+    foreach (int seed; seeds){
+      foreach (string pair; geo_pairs){
+        string b[] = split(pair,"_");
+        int first = atoi(b[0]);
+        int second = atoi(b[1]);
+        if (first == seed) {
+          append_if_not_in(pairs_to_build,pair);
+          append_if_not_in(new_seeds,second);
+          ;}
+        if (second == seed) {
+          append_if_not_in(pairs_to_build,pair);
+          append_if_not_in(new_seeds,first);
+          ;}
+        if( second == seed || first == seed ) c+=1;
+      }
+      seeds = new_seeds;
+                             }
+    newbies = c-old_n;
+    old_n = c;
+
+  }
+  return newbies;
 }
 
-int build_pairs_from_primlist(string sliced_pairs_list[]){
-  foreach (string pair; sliced_pairs_list){
+void build_pairs_from_primlist(string sliced_pairs_list[]){
+   foreach (string pair; sliced_pairs_list){
     string b[] = split( pair ,"_");
     int first = atoi(b[0]);
     int second = atoi(b[1]);
