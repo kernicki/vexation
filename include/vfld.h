@@ -97,7 +97,6 @@ int find_uber_class(int class; int sorted_classes[]){
       int neighbours[] = prim(0,"neighbours",pr);
       foreach (int neighbour; neighbours){
         int nei_class = prim ( 0, "class", neighbour );
-        // if (nei_class!=class)  append ( nei_classes,nei_class ); // append only if different
         if (nei_class!=class && !in_the (nei_classes_ids, nei_class)) append( nei_classes_ids, nei_class );
       }
     }
@@ -114,8 +113,8 @@ int find_uber_class(int class; int sorted_classes[]){
     /* } */
 
     // the dominant class will be the last because the array is sorted
-    foreach (int class_; sorted_classes){
-      if (in_the( nei_classes_ids,class_ )) the_class=class_;
+      foreach (int class_; sorted_classes){
+        if (in_the( nei_classes_ids,class_ )) the_class=class_;
     }
 
     return the_class;
@@ -334,9 +333,6 @@ int split_in_half(int primnum; int sharebase_prim){
   int new_prims[] = array (new_prim1 ,new_prim2 , new_prim3, new_prim4 );
   foreach(int pr; new_prims) {setprimgroup (0, "split", pr,1);}
 
-
-
-
   return basept;
 }
 
@@ -372,7 +368,8 @@ int build_strings(int iter;int seeds[] ;string geo_pairs[];string pairs_to_build
 }
 
 void build_pairs_from_primlist(string sliced_pairs_list[]){
-   foreach (string pair; sliced_pairs_list){
+  int idx = 0;
+  foreach (string pair; sliced_pairs_list){
     string b[] = split( pair ,"_");
     int first = atoi(b[0]);
     int second = atoi(b[1]);
@@ -382,6 +379,7 @@ void build_pairs_from_primlist(string sliced_pairs_list[]){
     int pt2 = addpoint(0, p2);
     int pr = addprim(0, "polyline", pt1, pt2);
     setprimgroup(0, "border", pr, 1);
-    setprimattrib( 0, "prim", pt1, first );
-    } }
+    setprimattrib( 0, "time", pr, idx  );
+    idx++;
+  } }
 #endif
