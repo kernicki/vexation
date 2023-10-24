@@ -308,32 +308,32 @@ int split_in_half(int primnum; int sharebase_prim){
   int points[]={};
   int prim_num=primnum;
   // find the share base prim apex
-  int points2[]={};
-  int my_points[]=primpoints(0,primnum);
-  int counter_pts[] = primpoints(0,sharebase_prim );
-  foreach( int pt; counter_pts ) {
-    if (in_the (my_points, pt)) append(points2,pt);
-  }
-  foreach( int pt; counter_pts ) {
-    if (pt !=points2[1] && pt !=points2[0]  ) apex2 =pt;
-  }
-  foreach( int pt; my_points ) {
-    if (pt !=points2[1] && pt !=points2[0]  ) apex=pt;
-  }
-  vector p1 = point(0,"P",points2[0]);
-  vector p2 = point(0,"P",points2[1]);
-  vector averageP = (p1+p2)/2;
-  int basept = addpoint(0,averageP);
-  // add and set up attrs
-  int new_prim1 = generate_poly ( basept, apex, points2[0],primnum);
-  int new_prim2 = generate_poly ( points2[1], apex, basept,primnum);
-  int new_prim3 = generate_poly ( apex2, basept, points2[0],sharebase_prim);
-  int new_prim4 = generate_poly ( points2[1], apex2, basept,sharebase_prim);
+    int points2[]={};
+    int my_points[]=primpoints(0,primnum);
+    int counter_pts[] = primpoints(0,sharebase_prim );
+    foreach( int pt; counter_pts ) {
+      if (in_the (my_points, pt)) append(points2,pt);
+    }
+    foreach( int pt; counter_pts ) {
+      if (pt !=points2[1] && pt !=points2[0]  ) apex2 =pt;
+    }
+    foreach( int pt; my_points ) {
+      if (pt !=points2[1] && pt !=points2[0]  ) apex=pt;
+    }
+    vector p1 = point(0,"P",points2[0]);
+    vector p2 = point(0,"P",points2[1]);
+    vector averageP = (p1+p2)/2;
+    int basept = addpoint(0,averageP);
+    // add and set up attrs
+    int new_prim1 = generate_poly ( basept, apex, points2[0],primnum);
+    int new_prim2 = generate_poly ( points2[1], apex, basept,primnum);
+    int new_prim3 = generate_poly ( apex2, basept, points2[0],sharebase_prim);
+    int new_prim4 = generate_poly ( points2[1], apex2, basept,sharebase_prim);
 
-  int new_prims[] = array (new_prim1 ,new_prim2 , new_prim3, new_prim4 );
-  foreach(int pr; new_prims) {setprimgroup (0, "split", pr,1);}
+    int new_prims[] = array (new_prim1 ,new_prim2 , new_prim3, new_prim4 );
+    foreach(int pr; new_prims) {setprimgroup (0, "split", pr,1);}
 
-  return basept;
+    return basept;
 }
 
 int build_strings(int iter;int seeds[] ;string geo_pairs[];string pairs_to_build[]){
