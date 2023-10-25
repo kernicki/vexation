@@ -257,14 +257,15 @@ int generate_linear_fan ( string pair; int primnum; int base_pt ;int numdiv){
 }
 //
 vector average_incident (int ptnum; int classes[]){
-  int classes_ordered[] = classes;
-  int first =  classes_ordered[0];
-  int second = classes_ordered[1];
-  int edges1[] = {};
-  int edges2[] = {};
-  int primary_hedges[]={};
-  int hout = pointhedge(0, ptnum);
-  while ( hout != -1 )
+   int classes_ordered[] = classes;
+   int first =  classes_ordered[1];
+   int second = classes_ordered[0];
+   int edges1[] = {};
+   int edges2[] = {};
+   int primary_hedges[]={};
+
+   int hout = pointhedge(0, ptnum);
+   while ( hout != -1 )
     {
       if (hedge_isprimary(0, hout)) push ( primary_hedges,hout );
       int hin = hedge_prev(0, hout);
@@ -280,25 +281,32 @@ vector average_incident (int ptnum; int classes[]){
       else push(edges2, hedge);
     }
   }
+
   vector average_first,average_second  = set(0,0,0);
   foreach (int hedge; edges1){
     int src_pt = hedge_srcpoint(0,hedge );
     int dst_pt = hedge_dstpoint(0,hedge );
     vector P1 = point(0,"P",src_pt );
     vector P2 = point(0,"P",dst_pt );
-    average_first += (P2-P1);
+    if (src_pt == ptnum ) average_first += (P2-P1);
+    else average_first += (P1-P2);
+
   }
-  average_first/=len( average_first );
+  average_first/=len( edges1 );
   foreach (int hedge; edges2){
     int src_pt = hedge_srcpoint(0,hedge );
     int dst_pt = hedge_dstpoint(0,hedge );
     vector P1 = point(0,"P",src_pt );
     vector P2 = point(0,"P",dst_pt );
-    average_second += (P1-P2);
+    if (src_pt == ptnum ) average_second += (P1-P2);
+    else average_second += (P2-P1);
   }
-  average_second/=len( average_second );
-  vector averageV=((average_second)+(average_first))/2;
-  return averageV;
+  average_second/=len( edges2 );
+
+  vector n = normalize(  point(0, "N",ptnum ));
+  vector averageV= ( (average_second) + (average_first) )/2;
+
+  return normalize(averageV);
 
 }
 
