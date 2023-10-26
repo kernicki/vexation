@@ -2,7 +2,10 @@
 ** About
 A set of simple functions compiled into a library (written in Side FX Houdini VEX language). The libray would allow to run some more abstract tasks for a given set of requirements and circumstances. (Either by processing existing geometry, or generating everything entirely from scratch).  It is in a very early state. Yet to be tested and tweaked, and well thought through. (To be elaborated...)
 As an integral part of generalized functions there are also assemblies, practical constructs that are primary users of the library.
-Assemblies would represent more complex solutions. First of the series is an assembly - Voronoi (clusters) FLD, comprised of 3 stages, each making its own thing ready for branching and developing something other than serving the described below goal and conditions. 
+Assemblies would represent more complex solutions. First of the series is an assembly - Voronoi (clusters) FLD, comprised of 3 stages, each making its own thing ready for branching and developing something other than serving the described below goal and conditions.
+
+[[https://vimeo.com/878087883][Video tour]]
+
 ** Functions
 TBD
 *** Array
@@ -82,12 +85,7 @@ The algorithm can be used in many different areas, such as:
 - Terrains with predefined paths, trails, routes, and beaches. 
 - Scientific and data visualizations (via class-topology relations)
 *** Usage
-#+begin_src bash :results verba// return 1 if en elem is __ in the __ array (similar to Python's in() )
-int in_the(int array[];int member;){
-  foreach (int num; array) {
-    if( num == member ) return 1;}
-  return 0;
-}tim 
+#+begin_src bash :results verbatim 
 git clone https://github.com/kernicki/vexation.git
 cd vexation/
 houdini hips/voronoi_fld_v002.hipnc
