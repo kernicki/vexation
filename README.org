@@ -1,6 +1,9 @@
+* Houdini VEX sandbox
+** Description 
 TBD
-
-Usage:
+** Usage
+#+begin_src bash :results verbatim 
 git clone https://github.com/kernicki/vexation.git
 cd vexation/
 houdini hips/voronoi_fld_v002.hipnc
+#+end_src 
