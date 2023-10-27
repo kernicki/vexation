@@ -1,13 +1,15 @@
 * Houdini VEX Sandbox
 ** About
-A set of simple functions compiled into a library (written in Side FX Houdini VEX language). The libray would allow to run some more abstract tasks for a given set of requirements and circumstances. (Either by processing existing geometry, or generating everything entirely from scratch).  It is in a very early state. Yet to be tested and tweaked, and well thought through. (To be elaborated...)
-As an integral part of generalized functions there are also assemblies, practical constructs being primary users of the library.
+A set of simple functions compiled into a library (written in Side FX Houdini VEX language). The library would allow to run some more abstract tasks for a given set of requirements and circumstances. (Either by processing existing geometry, or generating everything entirely from scratch).  It is in a very early state. Yet to be tested and tweaked, and well thought through. (To be elaborated...)
+As an integral part of generalized functions there are also assemblies, practical contraptions being primary users of the library.
 Assemblies would represent more complex solutions. First of the series is an assembly - Voronoi (clusters) FLD, comprised of 3 stages, each making its own thing ready for branching and developing something other than serving the described below goal and conditions.
 
 [[https://vimeo.com/878087883][Video tour]]
 
 ** Functions
-TBD
+TBD... 
+
+
 *** Array
 Functions for working with arrays.
 **** in_the
@@ -67,18 +69,33 @@ Returns number of the resulting primitive.
 
 ** Assemblies
 *** FLD
-An algorithm that fractures existing surface into a number of pieces with concave shapes and very defined border.  
+#+ATTR_HTML: :width 800px
+file:images/vfld.png
+
+An algorithm that fractures existing surface into a number of pieces with concave shapes and very defined border.
+
+
 **** Terms and conditions
-For a given set of primitives (very well triangulated) each with its own group Id, distort their boundary so that Voronoi classes (neighborhoods) start degrading losing their primitives to their neighbors. For all those make it so that they do not have inner regions. After that make iterable boundaries between newly generated groups, and loft with the boundary hulls presented by the edges of bordering simplexes (aka. triangles) with cubic (smooth) interpolation. And deform again to make profile look rougher, more natural - so to speak. 
+For a given set of primitives (very well triangulated) each with its own group Id, distort their boundary so that Voronoi classes (neighborhoods) start degrading losing their primitives to their neighbors. For all those make it so that they do not have inner regions. After that make iterable boundaries between newly generated groups, and loft with the boundary hulls presented by the edges of bordering simplexes (aka. triangles) with cubic (smooth) interpolation. And deform again to make profile look rougher, more natural - so to speak.
+
 **** Stages (FLD)
 ***** deForm and deFragment
 
-First displace point samples so that they intersect with nearest neighbors, so breaking up the wholeness of the group they belong to. Next, use class semantics and a simple rule: if class-A is more numerous than class-B (both always be neighbors, of course), class-A should engulf class-B, and re-assign its primitives' membership to class-A (k-NN). The minimum number of primitives, that are to be null-ed, is to be proportional to the Voronoi cell radius, and higher. Up to final dual-ness of the 2 resulting pieces that share only one border. Thus, the resulting clusters have non-deterministic look to them, as it is the case with many existing fracturing solutions that are grounded on Voronoi tessellation. 
+file:images/filter.gif
+
+file:images/before_after.gif
+
+First displace point samples so that they intersect with nearest neighbors, so breaking up the wholeness of the group they belong to. Next, use class semantics and a simple rule: if class-A is more numerous than class-B (both always be neighbors, of course), class-A should engulf class-B, and re-assign its primitives' membership to class-A (k-NN). The minimum number of primitives, that are to be null-ed, is to be proportional to the Voronoi cell radius, and higher. Up to final dual-ness of the 2 resulting pieces that share only one border. Thus, the resulting clusters have non-deterministic look to them, as it is the case with many existing fracturing solutions that are grounded on Voronoi tessellation.
+
 ***** Lofting
-[[file:images/stages.gif][processing stages]]
-The newly generated border primitives are fully aware of each other, and are ready to be subdivided and refined. Since the sequence of bordering points is now iterable (there is a sequential class-pair iterator), one can apply a series of heuristics to make uninterrupted subdivision possible by splitting the triangles at certain locations(such as split the primitive if one is surrounded by 2 different classes, and one of its neighbors shares 2 edges with another class, and so on). Some heuristics definitely could be better, but for now it is enough to build a safe profile of subdivision between new fragments. With control points being the vertices of the simplexes. 
+
+file:images/stages.gif
+
+The newly generated border primitives are fully aware of each other, and are ready to be subdivided and refined. Since the sequence of bordering points is now iterable (there is a sequential class-pair iterator), one can apply a series of heuristics to make uninterrupted subdivision possible by splitting the triangles at certain locations(such as split the primitive if one is surrounded by 2 different classes, and one of its neighbors shares 2 edges with another class, and so on). Some heuristics definitely could be better, but for now it is enough to build a safe profile of subdivision between new fragments. With control points being the vertices of the simplexes.
+
 ***** Disturbing (again)
 Lofting yields a very dull, eroded profile. By using existing free space to perturb the points, generated by the subdivision, we can gently pull vertices along the averages of the incident edges (that do not share the border). As if sliding them tangentially. Not ideal, but it gives a very perceptible breakup at a certain distance.
+
 **** Use cases
 The algorithm can be used in many different areas, such as:
 - Fracturing rigid bodies (though the resulting shapes can be costly concaves),
