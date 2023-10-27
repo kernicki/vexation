@@ -70,7 +70,7 @@ Returns number of the resulting primitive.
 ** Assemblies
 *** FLD
 #+ATTR_HTML: :width 800px
-file:images/vfld.png
+[[file:images/vfld.png]]
 
 An algorithm that fractures existing surface into a number of pieces with concave shapes and very defined border.
 
@@ -81,9 +81,9 @@ For a given set of primitives (very well triangulated) each with its own group I
 **** Stages (FLD)
 ***** deForm and deFragment
 
-file:images/filter.gif
+[[file:images/filter.gif]]
 
-file:images/before_after.gif
+[[file:images/before_after.gif]]
 
 First displace point samples so that they intersect with nearest neighbors, so breaking up the wholeness of the group they belong to. Next, use class semantics and a simple rule: if class-A is more numerous than class-B (both always be neighbors, of course), class-A should engulf class-B, and re-assign its primitives' membership to class-A (k-NN). The minimum number of primitives, that are to be null-ed, is to be proportional to the Voronoi cell radius, and higher. Up to final dual-ness of the 2 resulting pieces that share only one border. Thus, the resulting clusters have non-deterministic look to them, as it is the case with many existing fracturing solutions that are grounded on Voronoi tessellation.
 
