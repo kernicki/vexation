@@ -89,7 +89,7 @@ First displace point samples so that they intersect with nearest neighbors, so b
 
 ***** Lofting
 
-file:images/stages.gif
+[[file:images/stages.gif]]
 
 The newly generated border primitives are fully aware of each other, and are ready to be subdivided and refined. Since the sequence of bordering points is now iterable (there is a sequential class-pair iterator), one can apply a series of heuristics to make uninterrupted subdivision possible by splitting the triangles at certain locations(such as split the primitive if one is surrounded by 2 different classes, and one of its neighbors shares 2 edges with another class, and so on). Some heuristics definitely could be better, but for now it is enough to build a safe profile of subdivision between new fragments. With control points being the vertices of the simplexes.
 
